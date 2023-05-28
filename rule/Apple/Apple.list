@@ -1,0 +1,10 @@
+# Apple 相关服务
+
+# 系统更新
+DOMAIN,xp.apple.com
+DOMAIN,bpapi.apple.com
+DOMAIN,gdmf.apple.com
+
+# apple官网
+DOMAIN-SUFFIX,apple.com.cn
+
