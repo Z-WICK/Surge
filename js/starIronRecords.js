@@ -1,33 +1,33 @@
 /**
- * @fileoverview Surge script to log gacha parameters and send them to Bark.
+ * @fileoverview 抓取 Gacha 参数并推送到 Bark
  */
 
-// 动态参数：Bark 推送地址
-const barkUrl = "{{{BarkUrl}}}"; // 通过模块动态输入
+// 动态获取 Bark 推送地址
+const barkUrl = "{{{BarkUrl}}}";
 
 // 获取完整的 URL
 const url = $request.url;
 
-// 使用 URLSearchParams 提取参数
+// 提取 URL 参数
 const queryParams = new URLSearchParams(url.split('?')[1]);
 
-// 将参数转为对象
+// 转换参数为对象
 const params = {};
 queryParams.forEach((value, key) => {
     params[key] = value;
 });
 
-// 将参数转为字符串，供 Bark 使用
+// 将参数格式化为 JSON 字符串
 const message = `Gacha Log Parameters:\n${JSON.stringify(params, null, 2)}`;
 
-// 发送到 Bark 的消息内容
+// Bark 推送内容
 const barkPayload = {
-    title: "Gacha Log Parameters",
+    title: "星铁抽卡记录",
     body: message,
-    group: "GachaRecord" // 可选，用于分组
+    group: "星铁记录", // 可选分组，方便管理
 };
 
-// 发送 HTTP 请求到 Bark
+// 发送 Bark 请求
 $httpClient.post(
     {
         url: barkUrl,
@@ -43,5 +43,5 @@ $httpClient.post(
     }
 );
 
-// 响应处理
+// 完成响应处理
 $done({});
