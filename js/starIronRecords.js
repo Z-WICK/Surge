@@ -2,8 +2,8 @@
  * @fileoverview 抓取 Gacha 参数并推送到 Bark
  */
 
-// 动态获取 Bark 推送地址
-const barkUrl = "{{{BarkUrl}}}";
+// 从环境变量中获取 BarkUrl（兼容手动传参）
+const barkUrl = typeof $argument !== "undefined" ? $argument.BarkUrl : "{{{BarkUrl}}}";
 
 // 日志打印方法
 function log(message, level = "INFO") {
@@ -16,16 +16,16 @@ function log(message, level = "INFO") {
 }
 
 try {
-    // 检查 Bark 地址有效性并打印实际值
-    log(`实际使用的 Bark URL: ${barkUrl}`); // 验证 BarkUrl 是否正确传入
-    if (!barkUrl || !barkUrl.startsWith("https://api.day.app/")) {
+    // 检查 Bark 地址有效性
+    log(`实际使用的 Bark URL: ${barkUrl}`);
+    if (!barkUrl || barkUrl.includes("{{{") || !barkUrl.startsWith("https://api.day.app/")) {
         log("无效的 Bark 地址，请检查配置！", "ERROR");
         throw new Error("无效的 Bark 地址");
     }
 
     // 获取完整的 URL
     const url = $request.url;
-    log(`完整的请求 URL: ${url}`); // 输出完整的请求 URL，便于调试
+    log(`完整的请求 URL: ${url}`);
 
     // 提取 URL 参数
     const queryParams = new URLSearchParams(url.split('?')[1]);
@@ -71,9 +71,7 @@ try {
         }
     );
 } catch (error) {
-    // 捕获异常并输出日志
     log(`脚本运行异常: ${error.message}`, "ERROR");
 } finally {
-    // 完成响应处理，防止脚本中断
     $done({});
 }
