@@ -16,8 +16,8 @@ function log(message, level = "INFO") {
 }
 
 try {
-    // 检查 Bark 地址有效性
-    log(`实际使用的 Bark URL: ${barkUrl}`); // 添加日志验证传参
+    // 检查 Bark 地址有效性并打印实际值
+    log(`实际使用的 Bark URL: ${barkUrl}`); // 验证 BarkUrl 是否正确传入
     if (!barkUrl || !barkUrl.startsWith("https://api.day.app/")) {
         log("无效的 Bark 地址，请检查配置！", "ERROR");
         throw new Error("无效的 Bark 地址");
@@ -25,6 +25,7 @@ try {
 
     // 获取完整的 URL
     const url = $request.url;
+    log(`完整的请求 URL: ${url}`); // 输出完整的请求 URL，便于调试
 
     // 提取 URL 参数
     const queryParams = new URLSearchParams(url.split('?')[1]);
@@ -33,15 +34,16 @@ try {
         params[key] = value;
     });
 
-    // 检查是否有参数
+    // 打印解析到的参数内容
     if (Object.keys(params).length === 0) {
         log("未抓取到任何参数，可能是接口问题。", "WARN");
         throw new Error("未抓取到参数");
+    } else {
+        log(`抓取的参数内容:\n${JSON.stringify(params, null, 2)}`);
     }
 
     // 格式化参数为 JSON 字符串
     const message = `Gacha Log Parameters:\n${JSON.stringify(params, null, 2)}`;
-    log(`成功抓取参数:\n${JSON.stringify(params, null, 2)}`);
 
     // Bark 推送内容
     const barkPayload = {
@@ -51,6 +53,7 @@ try {
     };
 
     // 发送 Bark 请求
+    log("准备向 Bark 发送推送请求...");
     $httpClient.post(
         {
             url: barkUrl,
