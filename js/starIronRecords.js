@@ -1,5 +1,5 @@
 /**
- * @fileoverview 抓取 Gacha 请求的 URL 并推送到 Bark
+ * @fileoverview 抓取 Gacha 请求的 URL 并推送到 Bark，增加去重功能
  */
 
 // 从环境变量中获取 BarkUrl（兼容手动传参）
@@ -15,6 +15,9 @@ function log(message, level = "INFO") {
     console.log(`[${levels[level] || "ℹ️"}] ${message}`);
 }
 
+// 用于存储已推送的 URL 缓存
+const pushedUrls = new Set();
+
 try {
     // 检查 Bark 地址有效性
     log(`实际使用的 Bark URL: ${barkUrl}`);
@@ -26,6 +29,15 @@ try {
     // 获取完整的 URL
     const url = $request.url;
     log(`完整的请求 URL: ${url}`);
+
+    // 检查是否已经推送过该 URL
+    if (pushedUrls.has(url)) {
+        log(`该 URL 已经推送过，跳过推送: ${url}`, "INFO");
+        $done({});
+    }
+
+    // 标记该 URL 已推送
+    pushedUrls.add(url);
 
     // Bark 推送内容
     const barkPayload = {
