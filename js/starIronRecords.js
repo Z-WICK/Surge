@@ -17,6 +17,7 @@ function log(message, level = "INFO") {
 
 try {
     // 检查 Bark 地址有效性
+    log(`实际使用的 Bark URL: ${barkUrl}`); // 添加日志验证传参
     if (!barkUrl || !barkUrl.startsWith("https://api.day.app/")) {
         log("无效的 Bark 地址，请检查配置！", "ERROR");
         throw new Error("无效的 Bark 地址");
