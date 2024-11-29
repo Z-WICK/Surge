@@ -3,7 +3,7 @@
  */
 
 // 从环境变量中获取 BarkUrl（兼容手动传参）
-const barkUrl = typeof $argument !== "undefined" ? $argument.BarkUrl : "{{{BarkUrl}}}";
+const barkUrl = typeof $argument !== "undefined" ? $argument.match(/BarkUrl="(.+?)"/)?.[1] : "https://api.day.app/YourBarkKey";
 
 // 日志打印方法
 function log(message, level = "INFO") {
