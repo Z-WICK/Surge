@@ -30,7 +30,7 @@ try {
     // Bark 推送内容
     const barkPayload = {
         title: "星铁抽卡记录",
-        body: `请求 URL: ${url}`,
+        body: `${url}`,
         group: "星铁记录", // 可选分组，方便管理
     };
 
