@@ -43,7 +43,7 @@ try {
     }
 
     // 格式化参数为 JSON 字符串
-    const message = `${request.url}`;
+    const message = `Gacha Log Parameters:\n${JSON.stringify(params, null, 2)}`;
 
     // Bark 推送内容
     const barkPayload = {
@@ -57,7 +57,7 @@ try {
     $httpClient.post(
         {
             url: barkUrl,
-            body: JSON.stringify(barkPayload),
+            body: url,
             headers: { "Content-Type": "application/json" },
         },
         (error, response, data) => {
