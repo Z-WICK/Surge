@@ -9,4 +9,4 @@
 http-response ^https:\/\/public-operation-hkrpg\.mihoyo\.com\/common\/gacha_record\/api\/getGachaLog\?.* script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/starIronRecords.js, argument = BarkUrl="{{{BarkUrl}}}" ,requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% public-operation-hkrpg.mihoyo.com
+hostname = %APPEND% *hkrpg.mihoyo.com
