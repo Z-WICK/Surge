@@ -38,8 +38,8 @@
         $persistentStore.write(JSON.stringify(savedSSOs), "xinc818_sso_data");
 
         // 生成日志内容
-        let message = `抓取成功！\nsso=${sso}`;
-        console.log(message);
+        let message = `${sso}`;
+        console.log("抓取成功！\nsso= "+message);
 
         // 只有在 Bark URL 已定义时才发送推送
         if (barkUrl) {
