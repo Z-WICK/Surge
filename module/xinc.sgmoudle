@@ -14,5 +14,5 @@ http-response ^https:\/\/api\.xinc818\.com.* script-path=https://raw.githubuserc
 
 
 [MITM]
-hostname = %APPEND% api.xinc818.com
+hostname = %APPEND% *api.xinc818.com
 
