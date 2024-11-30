@@ -10,7 +10,6 @@ Debug: 开启调试模式，默认关闭。\n如果启用调试模式，每次�
 [Script]
 # 抓取cookie
 http-response ^https:\/\/api\.xinc818\.com.* script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/xincCookie.js, argument = BarkUrl="{{{BarkUrl}}}", Debug="{{{Debug}}}" ,requires-body=true, timeout=10
-# 执行签到
 
 
 [MITM]
