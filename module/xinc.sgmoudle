@@ -1,4 +1,4 @@
-#!name = 辛喜自动化执行
+#!name = 辛喜抓取 SSO 参数
 #!desc = 抓取 SSO 参数
 
 #!arguments = BarkUrl:"https://api.day.app/YourBarkKey" , Debug:"false"
@@ -8,10 +8,6 @@
 [Script]
 # 抓取cookie
 http-response ^https:\/\/api\.xinc818\.com.* script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/xincCookie.js, argument = BarkUrl="{{{BarkUrl}}}", Debug="{{{Debug}}}" ,requires-body=true, timeout=10
-
-# 定时任务: 每天执行签到任务
-cron "0 8 * * *" script-path=https://github.com/Z-WICK/Surge/blob/main/js/xinc.js, requires-body=true, timeout=10
-
 
 [MITM]
 hostname = %APPEND% *api.xinc818.com
