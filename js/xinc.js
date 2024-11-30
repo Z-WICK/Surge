@@ -4,8 +4,19 @@
 // 变量值: api.xinc818.com 请求头中sso的值 多账户&或者换行
 
 // 获取存储的 SSO 数据
-let savedSSOs = JSON.parse($persistentStore.read("xinc818_sso_data") || "{}");
-let sso = savedSSOs['sso'];  // 从存储中读取 sso
+
+let savedData = $persistentStore.read("xinc818_sso_data") || "{}";
+let savedSSOs = JSON.parse(savedData);
+
+// 获取 sso
+let sso = savedSSOs['sso'];
+
+if (sso) {
+    console.log("获取到的 sso:", sso);
+    // 继续执行需要 sso 的逻辑
+} else {
+    console.log("未获取到 sso 数据");
+}
 
 class Task {
     constructor(str) {
@@ -50,7 +61,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 签到任务出错:`, e);
         }
     }
 
@@ -65,7 +76,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 获取用户信息出错:`, e);
         }
     }
 
@@ -83,7 +94,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 完成浏览30s任务出错:`, e);
         }
     }
 
@@ -105,7 +116,7 @@ class Task {
                 }
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 完成点击想要任务出错:`, e);
         }
     }
 
@@ -124,7 +135,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 完成关注任务出错:`, e);
         }
     }
 
@@ -142,7 +153,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 完成抽奖任务出错:`, e);
         }
     }
 
@@ -160,7 +171,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 完成分享任务出错:`, e);
         }
     }
 
@@ -175,7 +186,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 获取文章列表出错:`, e);
         }
     }
 
@@ -190,7 +201,7 @@ class Task {
                 console.log(result);
             }
         } catch (e) {
-            console.log(e);
+            console.log(`❌ 账号[${this.index}] 获取商品列表出错:`, e);
         }
     }
 
@@ -208,7 +219,7 @@ class Task {
             options.body = body;
         }
 
-                return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             $.httpRequest(options, (err, resp, data) => {
                 if (err) {
                     reject(err);
@@ -244,4 +255,3 @@ async function run() {
 }
 
 run();
-
