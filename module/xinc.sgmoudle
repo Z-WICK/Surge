@@ -3,9 +3,7 @@
 
 #!arguments = BarkUrl:"https://api.day.app/YourBarkKey" , Debug:"false"
 
-#!arguments-desc =
-BarkUrl: Bark 推送地址\n请输入你的 Bark 推送 URL，例如：https://api.day.app/YourBarkKey\n
-Debug: 开启调试模式，默认关闭。\n如果启用调试模式，每次都抓取新的 sso 参数，跳过重复检查。
+#!arguments-desc = BarkUrl: Bark 推送地址\n请输入你的 Bark 推送 URL，例如：https://api.day.app/YourBarkKey\n Debug: 开启调试模式，默认关闭。\n如果启用调试模式，每次都抓取新的 sso 参数，跳过重复检查。
 
 [Script]
 # 抓取cookie
