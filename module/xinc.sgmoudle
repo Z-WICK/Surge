@@ -1,0 +1,18 @@
+#!name = 辛喜自动化执行
+#!desc = 抓取 SSO 参数
+
+#!arguments = BarkUrl:"https://api.day.app/YourBarkKey" , Debug:"false"
+
+#!arguments-desc =
+BarkUrl: Bark 推送地址\n请输入你的 Bark 推送 URL，例如：https://api.day.app/YourBarkKey\n
+Debug: 开启调试模式，默认关闭。\n如果启用调试模式，每次都抓取新的 sso 参数，跳过重复检查。
+
+[Script]
+# 抓取cookie
+http-response ^https:\/\/api\.xinc818\.com.* script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/xincCookie.js, argument = BarkUrl="{{{BarkUrl}}}", Debug="{{{Debug}}}" ,requires-body=true, timeout=10
+# 执行签到
+
+
+[MITM]
+hostname = %APPEND% api.xinc818.com
+
