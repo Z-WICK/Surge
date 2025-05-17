@@ -6,7 +6,7 @@
 
 
 [Script]
-http-request ^https:\/\/.*\.jd\.com\/.*$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument = botToken="{{{botToken}}}", chatId="{{{chatId}}}", Debug="{{{Debug}}}", requires-body=true, timeout=10
+http-request ^https:\/\/.*\.jd\.com\/.*$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument="{"botToken":"{{{botToken}}}","chatId","{{{chatId}}}","Debug":"{{{Debug}}}"}", requires-body=true, timeout=10
 
 [MITM]
 hostname = %APPEND% *.jd.com
