@@ -10,8 +10,7 @@
     let telegramApiUrl = 'https://api.telegram.org/bot' + botToken + '/sendMessage'; // 替换为你的 Telegram Bot API Token
 
     // 调试模式开关
-    // const DEBUG_MODE = typeof $argument !== "undefined" && $argument.includes("Debug=true"); // 如果为 true，将跳过去重检查，直接发送推送
-    const DEBUG_MODE = true;
+    const DEBUG_MODE = typeof $argument !== "undefined" && $argument.includes("Debug=true"); // 如果为 true，将跳过去重检查，直接发送推送
 
 
     // 本地存储，用于记录已抓取的数据
@@ -41,6 +40,9 @@
 
                 // 发送到 Telegram
                 let pushUrl = `${telegramApiUrl}?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+                console.log(telegramApiUrl);
+                console.log(chatId);
+                console.log(message);
                 $httpClient.get(pushUrl, (err, resp, data) => {
                     if (err) {
                         console.error(`Telegram 推送失败: ${err}`);
