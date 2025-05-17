@@ -1,0 +1,11 @@
+#!name=抓取 塔斯汀user-token
+#!desc=抓取请求头中的 user-token 并推送到 Telegram
+
+#!arguments=botToken:your-telegram-bot-token, chatId:your-chat-id, Debug:false
+#!arguments-desc=botToken:Telegram Bot Token\nchatId:Telegram 用户或群组 ID\nDebug:调试模式（无视去重）
+
+[Script]
+http-request ^https:\/\/sss-web\.tastientech\.com\/api\/minic\/shop\/accumulationPointWX\/selectList$ script-path=https://your-url-to-script/user_token_tg.js, requires-body=false, argument=botToken={{{botToken}}}&chatId={{{chatId}}}&Debug={{{Debug}}}, timeout=10
+
+[MITM]
+hostname = %APPEND% sss-web.tastientech.com
