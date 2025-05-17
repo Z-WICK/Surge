@@ -7,7 +7,7 @@
 (async () => {
     const chatId = typeof $argument !== "undefined" ? $argument.match(/chatId=([^&]+)/)?.[1] : null;
     const botToken = typeof $argument !== "undefined" ? $argument.match(/botToken=([^&]+)/)?.[1] : null;
-    let telegramApiUrl = 'https://api.telegram.org/bot'+botToken+' /sendMessage'; // 替换为你的 Telegram Bot API Token
+    let telegramApiUrl = 'https://api.telegram.org/bot'+botToken+'/sendMessage'; // 替换为你的 Telegram Bot API Token
 
     // 调试模式开关
     const DEBUG_MODE = false; // 如果为 true，将跳过去重检查，直接发送推送
