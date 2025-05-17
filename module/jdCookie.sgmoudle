@@ -1,12 +1,12 @@
 #!name=获取jdCookie模块
 #!desc=抓取 pt_key 和 pt_pin 参数并推送到 Telegram
 
-#!arguments=botToken:your-telegram-bot-token,chatId:your-chat-id
+#!arguments=botToken:your-telegram-bot-token,chatId:your-chat-id,Debug:false
 
-#!arguments-desc=botToken: Telegram 中 BotFather 获取的 Token\nchatId: 你的 Telegram 用户或群组 ID
+#!arguments-desc=botToken: Telegram 中 BotFather 获取的 TokenchatId: 你的 Telegram 用户或群组 ID
 
 [Script]
-http-request ^https:\/\/.*\.jd\.com\/.*$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument=botToken="{{{botToken}}}",chatId="{{{chatId}}}", requires-body=true, timeout=10
+http-request ^https:\/\/.*\.jd\.com\/.*$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument=botToken="{{{botToken}}}",chatId="{{{chatId}}}",Debug={{{Debug}}}, requires-body=true, timeout=10
 
 [MITM]
 hostname = %APPEND% *.jd.com
