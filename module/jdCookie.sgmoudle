@@ -3,10 +3,7 @@
 
 #!arguments=botToken:your-telegram-bot-token, chatId:your-chat-id, Debug:false
 
-#!arguments-desc=
-botToken: Telegram 中 BotFather 获取的 Token\n
-chatId: 你的 Telegram 用户或群组 ID\n
-Debug: 是否开启调试模式（true / false）
+
 
 [Script]
 http-request ^https:\/\/.*\.jd\.com\/.*$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument = botToken="{{{botToken}}}", chatId="{{{chatId}}}", Debug="{{{Debug}}}", requires-body=true, timeout=10
