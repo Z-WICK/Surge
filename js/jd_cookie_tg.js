@@ -3,82 +3,75 @@
  */
 
 // 从 $argument 中提取参数（Surge 模块传参格式：botToken=xxx&chatId=yyy）
-const botToken = typeof $argument !== "undefined" ? $argument.match(/botToken=([^&]+)/)?.[1] : null;
-const chatId = typeof $argument !== "undefined" ? $argument.match(/chatId=([^&]+)/)?.[1] : null;
 
-// 参数校验
-if (!botToken || !chatId) {
-    console.error("❌ 缺少必要的参数 botToken 或 chatId，请在模块设置中配置。");
-    $done();
-}
+(async () => {
+    const chatId = typeof $argument !== "undefined" ? $argument.match(/chatId=([^&]+)/)?.[1] : null;
+    const botToken = typeof $argument !== "undefined" ? $argument.match(/botToken=([^&]+)/)?.[1] : null;
+    let telegramApiUrl = 'https://api.telegram.org/bot'+botToken+' /sendMessage'; // 替换为你的 Telegram Bot API Token
 
-const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-const DEBUG_MODE = false; // ✅ 调试模式：跳过去重推送
-const STORAGE_KEY = "JD_Cookie_Data";
+    // 调试模式开关
+    const DEBUG_MODE = false; // 如果为 true，将跳过去重检查，直接发送推送
 
-try {
-    let savedData = $persistentStore.read(STORAGE_KEY) || "{}";
+    // 本地存储，用于记录已抓取的数据
+    let savedData = $persistentStore.read("JD_Cookie_Data") || "{}";
     let savedCookies = JSON.parse(savedData);
 
-    const request = $request;
-    const headers = request?.headers || {};
-    const cookies = headers['Cookie'] || headers['cookie'];
+    let request = $request;
+    let headers = request.headers;
+    let cookies = headers['Cookie'] || headers['cookie']; // 获取请求中的 Cookie
 
     if (cookies) {
-        const pt_key_match = cookies.match(/pt_key=([^;]+)/);
-        const pt_pin_match = cookies.match(/pt_pin=([^;]+)/);
+        // 匹配 pt_key 和 pt_pin
+        let pt_key_match = cookies.match(/pt_key=([^;]+)/); // 正确的正则表达式
+        let pt_pin_match = cookies.match(/pt_pin=([^;]+)/); // 修正后的正则表达式
 
         if (pt_key_match && pt_pin_match) {
-            const pt_key = pt_key_match[1] + ";";
-            const pt_pin = pt_pin_match[1] + ";";
+            let pt_key = pt_key_match[1] + ";"; // 加上分号
+            let pt_pin = pt_pin_match[1] + ";"; // 加上分号
 
-            const message = `pt_key=${pt_key}pt_pin=${pt_pin}`;
-            const pushUrl = `${telegramApiUrl}?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
-
+            // 如果开启调试模式，直接发送推送，不做去重检查
             if (DEBUG_MODE) {
-                console.log("⚙️ 调试模式开启，跳过去重判断，直接推送。");
+                console.log("调试模式开启，跳过去重检查，直接发送推送。");
+
+                // 生成推送内容
+                let message = `pt_key=${pt_key}pt_pin=${pt_pin}`;
+                console.log(message);
+
+                // 发送到 Telegram
+                let pushUrl = `${telegramApiUrl}?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
                 $httpClient.get(pushUrl, (err, resp, data) => {
-                    try {
-                        if (err) {
-                            console.error(`❌ Telegram 推送失败: ${err}`);
-                        } else {
-                            console.log(`✅ Telegram 推送成功: ${data}`);
-                        }
-                    } finally {
-                        $done();
+                    if (err) {
+                        console.error(`Telegram 推送失败: ${err}`);
+                    } else {
+                        console.log(`Telegram 推送成功: ${data}`);
                     }
                 });
             } else {
-                // 非调试模式下执行去重推送逻辑
+                // 判断是否是新数据
                 if (savedCookies[pt_pin] !== pt_key) {
+                    // 保存新的数据
                     savedCookies[pt_pin] = pt_key;
-                    $persistentStore.write(JSON.stringify(savedCookies), STORAGE_KEY);
+                    $persistentStore.write(JSON.stringify(savedCookies), "JD_Cookie_Data");
 
+                    // 生成推送内容
+                    let message = `pt_key=${pt_key}pt_pin=${pt_pin}`;
+                    console.log(message);
+
+                    // 发送到 Telegram
+                    let pushUrl = `${telegramApiUrl}?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
                     $httpClient.get(pushUrl, (err, resp, data) => {
-                        try {
-                            if (err) {
-                                console.error(`❌ Telegram 推送失败: ${err}`);
-                            } else {
-                                console.log(`✅ Telegram 推送成功: ${data}`);
-                            }
-                        } finally {
-                            $done();
+                        if (err) {
+                            console.error(`Telegram 推送失败: ${err}`);
+                        } else {
+                            console.log(`Telegram 推送成功: ${data}`);
                         }
                     });
                 } else {
-                    console.log("ℹ️ Cookie 数据未变，跳过推送。");
-                    $done();
+                    console.log("数据未变化，跳过推送。");
                 }
             }
-        } else {
-            console.warn("⚠️ 未找到 pt_key 或 pt_pin，跳过处理。");
-            $done();
         }
-    } else {
-        console.warn("⚠️ 未捕获到 Cookie 请求头。");
-        $done();
     }
-} catch (e) {
-    console.error(`❌ 脚本异常: ${e.message}`);
+
     $done();
-}
+})();
