@@ -5,7 +5,7 @@
 #!arguments-desc=botToken:Telegram Bot Token\nchatId:Telegram 用户/群组 ID\nDebug:调试模式，开启则无视去重
 
 [Script]
-http-response ^https:\/\/webapi2\.qmai\.cn\/web\/seller\/oauth\/flash-sale-login script-path=https://your-path-to-script/bwcj_cookie_tg.js, requires-body=true, argument=botToken={{{botToken}}}&chatId={{{chatId}}}&Debug={{{Debug}}}, timeout=10
+http-response ^https:\/\/webapi2\.qmai\.cn\/web\/seller\/oauth\/flash-sale-login script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/bwcj_cookie.js, requires-body=true, argument=botToken={{{botToken}}}&chatId={{{chatId}}}&Debug={{{Debug}}}, timeout=10
 
 [MITM]
 hostname = %APPEND% webapi2.qmai.cn
