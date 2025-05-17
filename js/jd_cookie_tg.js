@@ -41,6 +41,9 @@
 
                 // 发送到 Telegram
                 let pushUrl = `${telegramApiUrl}?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+                console.log(telegramApiUrl);
+                console.log(chatId);
+                console.log(message);
                 $httpClient.get(pushUrl, (err, resp, data) => {
                     if (err) {
                         console.error(`Telegram 推送失败: ${err}`);
