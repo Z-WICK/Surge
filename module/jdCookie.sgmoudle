@@ -1,0 +1,13 @@
+#!name = jdCookie 抓包
+#!desc = 抓取 pt_key&pt_pin 参数并推送到 tg
+
+#!arguments = botToken:your-telegram-bot-token,chatId:your-chat-id
+
+
+#!arguments-desc = botToken: telegram botFather中获取, chatId:自行获取
+
+[Script]
+http-response ^https:\/\/mars\.jd\.com\/log\/sdk\/v2(\?.*)?$ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/refs/heads/main/js/jd_cookie_tg.js, argument = botToken="{{{botToken}}}", chatId = "{{{chatId}}}" ,requires-body=true, timeout=10
+
+[MITM]
+hostname = %APPEND% *.jd.com
