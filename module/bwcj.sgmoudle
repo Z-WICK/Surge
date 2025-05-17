@@ -1,4 +1,4 @@
-#!name=获取闪购系统 token
+#!name=霸王茶姬 token
 #!desc=抓取 token 和 userId，并推送到 Telegram
 
 #!arguments=botToken:your-bot-token, chatId:your-chat-id, Debug:false
