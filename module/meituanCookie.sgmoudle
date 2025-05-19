@@ -1,0 +1,11 @@
+#!name=抓取 美团 token
+#!desc=抓取请求体中的 token 并推送到 Telegram
+
+#!arguments=botToken:your-telegram-bot-token, chatId:your-chat-id, Debug:false
+#!arguments-desc=botToken:Telegram Bot Token\nchatId:Telegram 用户或群组 ID\nDebug:调试模式（无视去重）
+
+[Script]
+http-request ^https:\/\/tte\.meituan\.com\/.+ script-path=https://raw.githubusercontent.com/Z-WICK/Surge/main/js/tte_token.js, requires-body=true, argument=botToken={{{botToken}}}&chatId={{{chatId}}}&Debug={{{Debug}}}, timeout=10
+
+[MITM]
+hostname = %APPEND% tte.meituan.com
